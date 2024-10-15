@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Projects</title>
+</head>
+<body>
+
+    <h1>Leap Year Checker</h1>
+    <p>Enter a year to check if it's a leap year:</p>
+    <input type="number" id="yearInput" placeholder="Enter a year" />
+    <button onclick="checkLeapYear()">Check</button>
+    <div id="leap-year-result"></div> 
+
+   
+    <h1>Years when 1st January is a Sunday (2014 - 2050)</h1>
+    <ul id="sunday-list"></ul> <!-- List for Sunday Results -->
+
+    <!-- Odd or Even Number Checker -->
+    <h1>Odd or Even Numbers from 0 to 15</h1>
+    <ul id="number-list"></ul> <!-- List for Odd/Even Results -->
+
+    <!-- Palindrome Checker -->
+    <h1>Palindrome Checker</h1>
+    <p>Enter a word or phrase to check if it's a palindrome:</p>
+    <input type="text" id="palindromeInput" placeholder="Enter a word or phrase" />
+    <button onclick="checkPalindrome()">Check</button>
+    <p id="palindrome-result"></p> <!-- Result for Palindrome -->
+
+    <script>
+        // Leap Year Checker
+        function isLeapYear(year) {
+            if (year % 4 === 0) {
+                if (year % 100 === 0) {
+                    if (year % 400 === 0) {
+                        return true; // Divisible by 400
+                    }
+                    return false; // Divisible by 100 but not by 400
+                }
+                return true; // Divisible by 4 but not by 100
+            }
+            return false; // Not divisible by 4
+        }
+
+        function checkLeapYear() {
+            const year = parseInt(document.getElementById("yearInput").value);
+            const resultDiv = document.getElementById("leap-year-result");
+
+            if (isNaN(year)) {
+                resultDiv.textContent = "Please enter a valid year.";
+                return;
+            }
+
+            if (isLeapYear(year)) {
+                resultDiv.textContent = `${year} is a leap year!`;
+            } else {
+                resultDiv.textContent = `${year} is not a leap year.`;
+            }
+        }
+
+        // Sunday Checker for January 1st (2014-2050)
+        for (let year = 2014; year <= 2050; year++) {
+            let date = new Date(year, 0, 1);  // Create a Date object for January 1st of the current year
+            if (date.getDay() === 0) {  // Check if it's Sunday
+                let listItem = document.createElement('li');
+                listItem.textContent = `1st January is a Sunday in the year ${year}`;
+                document.getElementById('sunday-list').appendChild(listItem);
+            }
+        }
+
+        // Odd or Even Number Checker (0 to 15)
+        for (let i = 0; i <= 15; i++) {
+            let listItem = document.createElement('li');
+
+            if (i % 2 === 0) {
+                listItem.textContent = `${i} is even`;
+            } else {
+                listItem.textContent = `${i} is odd`;
+            }
+
+            document.getElementById('number-list').appendChild(listItem);
+        }
+
+        // Palindrome Checker with User Input
+        function isPalindrome(str) {
+            let cleanStr = str.toLowerCase().replace(/[^a-z0-9]/g, '');
+            let reversedStr = cleanStr.split('').reverse().join('');
+            return cleanStr === reversedStr;
+        }
+
+        function checkPalindrome() {
+            let inputString = document.getElementById("palindromeInput").value;
+            let palindromeResult = isPalindrome(inputString);
+
+            document.getElementById("palindrome-result").textContent = 
+                `"${inputString}" is ${palindromeResult ? "" : "not "}a palindrome.`;
+        }
+    </script>
+
+</body>
+</html>
